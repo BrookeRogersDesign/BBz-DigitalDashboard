@@ -623,6 +623,15 @@
     font-weight: 600;
   }
 
+  @media (max-width: 600px) {
+    .footer {
+      flex-direction: column;
+      text-align: center;
+      gap: 6px;
+      padding: 18px 20px;
+    }
+  }
+
   /* === SECTIONS VISIBILITY === */
   .section { display: none; }
   .section.active { display: block; }
@@ -686,9 +695,9 @@
       </div>
       <div class="metric-card">
         <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F4C8;</div>
-        <div class="metric-label">Total Engagement</div>
-        <div class="metric-value">&mdash;</div>
-        <div class="metric-change up">&uarr; &mdash;%</div>
+        <div class="metric-label">IG Engagement Rate</div>
+        <div class="metric-value">8.02%</div>
+        <div class="metric-change up">&uarr; 0.48% from Feb</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F441;</div>
@@ -734,6 +743,12 @@
   <!-- ==================== SOCIAL TAB ==================== -->
   <div class="section" id="tab-social">
 
+    <div style="display:flex;gap:6px;margin-bottom:16px;">
+      <button class="nav-tab active" onclick="switchMonth('mar',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">MARCH</button>
+      <button class="nav-tab" onclick="switchMonth('feb',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">FEBRUARY</button>
+      <button class="nav-tab" onclick="switchMonth('jan',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">JANUARY</button>
+    </div>
+
     <div class="section-label">Platform Performance</div>
     <div class="platforms-grid">
 
@@ -754,8 +769,8 @@
           </div>
           <div>
             <div class="platform-stat-label">Engagement Rate</div>
-            <div class="platform-stat-value">&mdash;%</div>
-            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+            <div class="platform-stat-value" id="ig-engagement">8.02%</div>
+            <div class="platform-stat-change" id="ig-eng-change" style="color: var(--green);">&uarr; 0.48%</div>
           </div>
           <div>
             <div class="platform-stat-label">Reach</div>
@@ -763,9 +778,9 @@
             <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
           </div>
           <div>
-            <div class="platform-stat-label">Impressions</div>
-            <div class="platform-stat-value">&mdash;</div>
-            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+            <div class="platform-stat-label">Posts Published</div>
+            <div class="platform-stat-value" id="ig-posts">18</div>
+            <div class="platform-stat-change" id="ig-posts-label" style="color: var(--green);">MAR 2026</div>
           </div>
         </div>
       </div>
@@ -836,6 +851,62 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="section-label">Content Insights &mdash; March 2026</div>
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--green);"></div>
+            <span>What Worked</span>
+          </div>
+          <div class="platform-badge">TOP FORMAT: REELS</div>
+        </div>
+        <div style="padding:4px 0;font-size:13px;color:var(--text-mid);line-height:1.6;">Motivating and Instructional content! BBZ audience loves feeling confident and learning how to grow!</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--red);"></div>
+            <span>What Didn't Work</span>
+          </div>
+        </div>
+        <div style="padding:4px 0;font-size:13px;color:var(--text-mid);line-height:1.6;">Static Posts &mdash; No Hook</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--pink);"></div>
+            <span>Improvements</span>
+          </div>
+        </div>
+        <div style="padding:4px 0;font-size:13px;color:var(--text-mid);line-height:1.6;">Make 80% of our content reels OR have a specific hook.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Audience</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-icon" style="background: var(--pink-dim); color: var(--pink);">&#x1F469;</div>
+        <div class="metric-label">Gender</div>
+        <div class="metric-value" style="font-size:16px;">Women</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F4CD;</div>
+        <div class="metric-label">Location</div>
+        <div class="metric-value" style="font-size:16px;">Tampa</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F382;</div>
+        <div class="metric-label">Age Range</div>
+        <div class="metric-value" style="font-size:16px;">20's-30's</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(255,145,0,0.1); color: var(--orange);">&#x1F3AC;</div>
+        <div class="metric-label">Top Format</div>
+        <div class="metric-value" style="font-size:16px;">Reels</div>
+      </div>
     </div>
 
     <div class="section-label">Engagement Trends</div>
@@ -1074,6 +1145,23 @@
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
 
+  // === MONTHLY DATA ===
+  const monthlyData = {
+    mar: { engagement: '8.02%', engChange: '↑ 0.48%', posts: '18', postsLabel: 'MAR 2026' },
+    feb: { engagement: '7.54%', engChange: '↑ 1.53%', posts: '18', postsLabel: 'FEB 2026' },
+    jan: { engagement: '6.01%', engChange: '—', posts: '15', postsLabel: 'JAN 2026' }
+  };
+
+  function switchMonth(month, btn) {
+    btn.parentElement.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    var d = monthlyData[month];
+    document.getElementById('ig-engagement').textContent = d.engagement;
+    document.getElementById('ig-eng-change').textContent = d.engChange;
+    document.getElementById('ig-posts').textContent = d.posts;
+    document.getElementById('ig-posts-label').textContent = d.postsLabel;
+  }
+
   // === TAB SWITCHING ===
   function switchTab(tab, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1148,7 +1236,7 @@
         data: {
           labels: monthLabels,
           datasets: [
-            { label: 'Instagram', data: placeholderData, backgroundColor: igColor + '99', borderRadius: 8, barPercentage: 0.6 },
+            { label: 'Instagram', data: [6.01, 7.54, 8.02, 0, 0, 0, 0, 0, 0, 0, 0, 0], backgroundColor: igColor + '99', borderRadius: 8, barPercentage: 0.6 },
             { label: 'TikTok', data: placeholderData, backgroundColor: tiktokColor + '99', borderRadius: 8, barPercentage: 0.6 },
             { label: 'Facebook', data: placeholderData, backgroundColor: fbColor + '99', borderRadius: 8, barPercentage: 0.6 }
           ]
