@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBz | Digital Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @font-face {
+    font-family: 'Termina';
+    src: local('Termina');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #F43CE2;
+    --pink-dim: rgba(244, 60, 226, 0.12);
+    --pink-glow: rgba(244, 60, 226, 0.25);
+    --bg: #0B0B12;
+    --card: rgba(18, 18, 28, 0.85);
+    --card-solid: #13131F;
+    --card-border: rgba(255,255,255,0.07);
+    --card-hover: rgba(26, 26, 40, 0.9);
+    --text: #FFFFFF;
+    --text-dim: rgba(255,255,255,0.45);
+    --text-mid: rgba(255,255,255,0.7);
+    --green: #00E676;
+    --red: #FF5252;
+    --blue: #448AFF;
+    --orange: #FF9100;
+    --tiktok: #00F2EA;
+    --facebook: #1877F2;
+    --instagram: #E1306C;
+    --google: #4285F4;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --font-heading: 'Termina', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Avenir', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .logo-mark, .logo-text span:first-child,
+  .section-label, .metric-value, .platform-stat-value,
+  .ad-metric-value, .chart-title, .nav-tab {
+    font-family: var(--font-heading);
+  }
+
+  /* === HEADER === */
+  .header {
+    background: linear-gradient(180deg, rgba(244,60,226,0.06) 0%, transparent 100%);
+    border-bottom: 1px solid var(--card-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .logo-svg {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .logo-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-text span:first-child {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .logo-text span:last-child {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-date {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .header-badge {
+    background: var(--pink-dim);
+    color: var(--pink);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(244,60,226,0.2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+  }
+
+  /* === NAV TABS (pill style from inspo) === */
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 40px;
+    border-bottom: 1px solid var(--card-border);
+    background: rgba(11,11,18,0.9);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 85px;
+    z-index: 99;
+  }
+
+  .nav-tab {
+    padding: 10px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  .nav-tab:hover {
+    color: var(--text-mid);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .nav-tab.active {
+    color: #000;
+    background: var(--pink);
+    border-color: var(--pink);
+    font-weight: 700;
+  }
+
+  /* === MAIN CONTENT === */
+  .main {
+    padding: 28px 40px 60px;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+
+  /* === METRIC CARDS (top row) === */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pink), rgba(244,60,226,0.3));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .metric-card:hover {
+    background: var(--card-hover);
+    border-color: rgba(244,60,226,0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(244,60,226,0.08);
+  }
+
+  .metric-card:hover::before { opacity: 1; }
+
+  .metric-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+  }
+
+  .metric-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  .metric-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 10px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+  }
+
+  .metric-change.up { color: var(--green); background: rgba(0,230,118,0.1); }
+  .metric-change.down { color: var(--red); background: rgba(255,82,82,0.1); }
+
+  /* === PLATFORM CARDS === */
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .platform-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 26px;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+    backdrop-filter: blur(10px);
+  }
+
+  .platform-card:hover {
+    background: var(--card-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+
+  .platform-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .platform-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .platform-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .platform-name span {
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+  }
+
+  .platform-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid var(--card-border);
+  }
+
+  .platform-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .platform-stat-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-family: var(--font-body);
+  }
+
+  .platform-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .platform-stat-change {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 3px;
+    font-family: var(--font-body);
+  }
+
+  /* === CHART SECTIONS === */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    backdrop-filter: blur(10px);
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .chart-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .chart-period {
+    display: flex;
+    gap: 4px;
+  }
+
+  .chart-period button {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+  }
+
+  .chart-period button.active {
+    color: #000;
+    background: var(--pink);
+    border-color: var(--pink);
+  }
+
+  .chart-container {
+    position: relative;
+    height: 260px;
+  }
+
+  /* === AD PERFORMANCE === */
+  .ads-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .ad-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+    backdrop-filter: blur(10px);
+  }
+
+  .ad-card:hover {
+    background: var(--card-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+
+  .ad-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .ad-platform {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ad-platform-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    font-family: var(--font-heading);
+  }
+
+  .ad-platform-name {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+  }
+
+  .ad-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .ad-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .ad-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .ad-metric {
+    padding: 14px;
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .ad-metric-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    font-family: var(--font-body);
+  }
+
+  .ad-metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  /* === CONTENT TABLE === */
+  .table-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .table-wrapper { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  thead th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--card-border);
+    font-family: var(--font-heading);
+  }
+
+  tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text-mid);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .post-type-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+  }
+
+  .post-type-badge.reel { background: rgba(244,60,226,0.12); color: var(--pink); }
+  .post-type-badge.story { background: rgba(68,138,255,0.12); color: var(--blue); }
+  .post-type-badge.post { background: rgba(0,242,234,0.12); color: var(--tiktok); }
+  .post-type-badge.video { background: rgba(255,145,0,0.12); color: var(--orange); }
+
+  /* === FOOTER === */
+  .footer {
+    border-top: 1px solid var(--card-border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-brand {
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-brand a {
+    color: var(--pink);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* === SECTIONS VISIBILITY === */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 1024px) {
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .platforms-grid { grid-template-columns: 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .ads-grid { grid-template-columns: 1fr; }
+    .main { padding: 20px; }
+    .header { padding: 16px 20px; }
+    .nav-tabs { padding: 12px 20px; overflow-x: auto; }
+  }
+
+  @media (max-width: 640px) {
+    .metrics-row { grid-template-columns: 1fr; }
+    .header-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-area">
+    <svg class="logo-svg" viewBox="0 0 832.38 414.9" xmlns="http://www.w3.org/2000/svg"><path fill="#f43ce1" d="M394.58,276.19c-1.7-27.28-2.6-59.33-20.79-81.41-12.14-14.75-30.77-22.71-49.44-26.51-18.06-3.66-36.64-5.37-55.39-6.08-29.32-1.11-59.04.19-87.72.19H.78v250.45c2.98.21,5.18.48,7.36.48,75.49.04,150.97.29,226.44-.08,25.11-.13,50.44-.12,75.25-3.34,31.95-4.14,59.67-18.55,74.46-48.9,12.33-25.28,11.98-57.39,10.28-84.81ZM302.4,283.98c-1.91,15.23-10.68,22.85-27.62,22.96-31.17.23-62.33.08-93.5.08h-84.63v-55.55c2.62-.31,5.03-.81,7.43-.81,56.29-.04,112.57-.13,168.86.02,22.27.06,32.17,11.53,29.45,33.3ZM259.47,107.84c.42,0,.84,0,1.24.02l-1.24-.02Z"/><path fill="#f43ce1" d="M76.45,0L0,107.84l632.26-.46c-.78.9-1.74,2.09-2.79,3.18-64.12,66.26-128.24,132.49-192.35,198.77-11.18,11.55-18.16,25.34-20.99,41.17-6.42,36.06,13.23,62.69,46.88,62.77,27.5.06,55.01.08,82.51.06l210.41,1.57,76.45-107.84h-253.24c.44-.63.78-1.13,1.19-1.57,64.96-67.66,130.14-135.1,194.6-203.24,8.01-8.46,14.24-19.95,17.68-31.15C802.43,39.27,790.51-.27,740.64.02l-664.19-.02Z"/></svg>
+    <div class="logo-divider"></div>
+    <div class="logo-text">
+      <span>Booty Babez</span>
+      <span>Digital Dashboard</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-date" id="currentDate"></div>
+    <div class="header-badge">Live</div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('overview', this)">Overview</button>
+  <button class="nav-tab" onclick="switchTab('social', this)">Social Media</button>
+  <button class="nav-tab" onclick="switchTab('ads', this)">Paid Ads</button>
+  <button class="nav-tab" onclick="switchTab('content', this)">Top Content</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ==================== OVERVIEW TAB ==================== -->
+  <div class="section active" id="tab-overview">
+
+    <div class="section-label">Key Metrics</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-icon" style="background: var(--pink-dim); color: var(--pink);">&#x1F465;</div>
+        <div class="metric-label">Total Followers</div>
+        <div class="metric-value">&mdash;</div>
+        <div class="metric-change up">&uarr; &mdash;%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F4C8;</div>
+        <div class="metric-label">Total Engagement</div>
+        <div class="metric-value">&mdash;</div>
+        <div class="metric-change up">&uarr; &mdash;%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F441;</div>
+        <div class="metric-label">Total Impressions</div>
+        <div class="metric-value">&mdash;</div>
+        <div class="metric-change up">&uarr; &mdash;%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(255,145,0,0.1); color: var(--orange);">&#x1F4B0;</div>
+        <div class="metric-label">Total Ad Spend</div>
+        <div class="metric-value">$&mdash;</div>
+        <div class="metric-change up">ROAS: &mdash;x</div>
+      </div>
+    </div>
+
+    <div class="section-label">Follower Growth</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Growth Over Time</div>
+          <div class="chart-period">
+            <button class="active">30D</button>
+            <button>90D</button>
+            <button>12M</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="followerChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Platform Split</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="platformSplitChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== SOCIAL TAB ==================== -->
+  <div class="section" id="tab-social">
+
+    <div class="section-label">Platform Performance</div>
+    <div class="platforms-grid">
+
+      <!-- Instagram -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--instagram);"></div>
+            <span>Instagram</span>
+          </div>
+          <div class="platform-badge">@bootybabeztampa</div>
+        </div>
+        <div class="platform-stats">
+          <div>
+            <div class="platform-stat-label">Followers</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Engagement Rate</div>
+            <div class="platform-stat-value">&mdash;%</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Reach</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Impressions</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--tiktok);"></div>
+            <span>TikTok</span>
+          </div>
+          <div class="platform-badge">@bootybabez</div>
+        </div>
+        <div class="platform-stats">
+          <div>
+            <div class="platform-stat-label">Followers</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Engagement Rate</div>
+            <div class="platform-stat-value">&mdash;%</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Video Views</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Avg Watch Time</div>
+            <div class="platform-stat-value">&mdash;s</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facebook -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-name">
+            <div class="platform-dot" style="background: var(--facebook);"></div>
+            <span>Facebook</span>
+          </div>
+          <div class="platform-badge">Booty Babez</div>
+        </div>
+        <div class="platform-stats">
+          <div>
+            <div class="platform-stat-label">Page Likes</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Engagement Rate</div>
+            <div class="platform-stat-value">&mdash;%</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Reach</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+          <div>
+            <div class="platform-stat-label">Post Clicks</div>
+            <div class="platform-stat-value">&mdash;</div>
+            <div class="platform-stat-change" style="color: var(--green);">&uarr; &mdash;%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label">Engagement Trends</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Engagement by Platform</div>
+          <div class="chart-period">
+            <button class="active">30D</button>
+            <button>90D</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="engagementChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Audience Demographics</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="demographicsChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== ADS TAB ==================== -->
+  <div class="section" id="tab-ads">
+
+    <div class="section-label">Paid Ad Performance</div>
+    <div class="ads-grid">
+
+      <!-- Meta Ads -->
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <div class="ad-platform">
+            <div class="ad-platform-icon" style="background: rgba(24,119,242,0.15); color: var(--facebook);">M</div>
+            <div class="ad-platform-name">Meta Ads</div>
+          </div>
+          <div class="ad-status"><div class="ad-status-dot"></div> Active</div>
+        </div>
+        <div class="ad-metrics">
+          <div class="ad-metric">
+            <div class="ad-metric-label">Spend</div>
+            <div class="ad-metric-value">$&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">ROAS</div>
+            <div class="ad-metric-value">&mdash;x</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Impressions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Clicks</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">CTR</div>
+            <div class="ad-metric-value">&mdash;%</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Conversions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Ads -->
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <div class="ad-platform">
+            <div class="ad-platform-icon" style="background: rgba(66,133,244,0.15); color: var(--google);">G</div>
+            <div class="ad-platform-name">Google Ads</div>
+          </div>
+          <div class="ad-status"><div class="ad-status-dot"></div> Active</div>
+        </div>
+        <div class="ad-metrics">
+          <div class="ad-metric">
+            <div class="ad-metric-label">Spend</div>
+            <div class="ad-metric-value">$&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">ROAS</div>
+            <div class="ad-metric-value">&mdash;x</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Impressions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Clicks</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">CTR</div>
+            <div class="ad-metric-value">&mdash;%</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Conversions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok Ads -->
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <div class="ad-platform">
+            <div class="ad-platform-icon" style="background: rgba(0,242,234,0.15); color: var(--tiktok);">T</div>
+            <div class="ad-platform-name">TikTok Ads</div>
+          </div>
+          <div class="ad-status"><div class="ad-status-dot"></div> Active</div>
+        </div>
+        <div class="ad-metrics">
+          <div class="ad-metric">
+            <div class="ad-metric-label">Spend</div>
+            <div class="ad-metric-value">$&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">ROAS</div>
+            <div class="ad-metric-value">&mdash;x</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Impressions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Clicks</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">CTR</div>
+            <div class="ad-metric-value">&mdash;%</div>
+          </div>
+          <div class="ad-metric">
+            <div class="ad-metric-label">Conversions</div>
+            <div class="ad-metric-value">&mdash;</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label">Spend & Performance</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Ad Spend Over Time</div>
+          <div class="chart-period">
+            <button class="active">30D</button>
+            <button>90D</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="adSpendChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Spend by Platform</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="adSplitChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== CONTENT TAB ==================== -->
+  <div class="section" id="tab-content">
+
+    <div class="section-label">Top Performing Content</div>
+    <div class="table-card">
+      <div class="chart-header">
+        <div class="chart-title">Recent Posts</div>
+        <div class="chart-period">
+          <button class="active">All</button>
+          <button>Reels</button>
+          <button>Posts</button>
+          <button>Videos</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Post</th>
+              <th>Platform</th>
+              <th>Type</th>
+              <th>Reach</th>
+              <th>Engagement</th>
+              <th>Likes</th>
+              <th>Comments</th>
+              <th>Shares</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--text); font-weight: 500;">Awaiting data...</td>
+              <td>&mdash;</td>
+              <td><span class="post-type-badge reel">&mdash;</span></td>
+              <td>&mdash;</td>
+              <td>&mdash;</td>
+              <td>&mdash;</td>
+              <td>&mdash;</td>
+              <td>&mdash;</td>
+              <td>&mdash;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">BBz Digital Dashboard &mdash; Booty Babez &copy; 2026</div>
+  <div class="footer-brand">
+    Powered by <a href="https://mybiomefit.com" target="_blank">MyBiomeFit</a>
+  </div>
+</div>
+
+<script>
+  // === DATE ===
+  const now = new Date();
+  document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  // === TAB SWITCHING ===
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+    initCharts(tab);
+  }
+
+  // === CHART DEFAULTS ===
+  Chart.defaults.color = 'rgba(255,255,255,0.45)';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+  Chart.defaults.font.family = "'Avenir', 'Avenir Next', 'Inter', sans-serif";
+
+  const pink = '#F43CE2';
+  const pinkAlpha = 'rgba(244, 60, 226, 0.15)';
+  const tiktokColor = '#00F2EA';
+  const fbColor = '#1877F2';
+  const igColor = '#E1306C';
+  const googleColor = '#4285F4';
+
+  const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const placeholderData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  let charts = {};
+
+  function destroyChart(id) {
+    if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+  }
+
+  function initCharts(tab) {
+    if (tab === 'overview' || tab === undefined) {
+      destroyChart('followerChart');
+      const ctx1 = document.getElementById('followerChart').getContext('2d');
+      charts['followerChart'] = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: monthLabels,
+          datasets: [
+            { label: 'Instagram', data: placeholderData, borderColor: igColor, backgroundColor: 'transparent', tension: 0.4, borderWidth: 2.5, pointRadius: 0 },
+            { label: 'TikTok', data: placeholderData, borderColor: tiktokColor, backgroundColor: 'transparent', tension: 0.4, borderWidth: 2.5, pointRadius: 0 },
+            { label: 'Facebook', data: placeholderData, borderColor: fbColor, backgroundColor: 'transparent', tension: 0.4, borderWidth: 2.5, pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } } },
+          scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } }
+        }
+      });
+
+      destroyChart('platformSplitChart');
+      const ctx2 = document.getElementById('platformSplitChart').getContext('2d');
+      charts['platformSplitChart'] = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['Instagram', 'TikTok', 'Facebook'],
+          datasets: [{ data: [1, 1, 1], backgroundColor: [igColor, tiktokColor, fbColor], borderWidth: 0, spacing: 4 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '74%',
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 11 } } } }
+        }
+      });
+    }
+
+    if (tab === 'social') {
+      destroyChart('engagementChart');
+      const ctx3 = document.getElementById('engagementChart').getContext('2d');
+      charts['engagementChart'] = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+          labels: monthLabels,
+          datasets: [
+            { label: 'Instagram', data: placeholderData, backgroundColor: igColor + '99', borderRadius: 8, barPercentage: 0.6 },
+            { label: 'TikTok', data: placeholderData, backgroundColor: tiktokColor + '99', borderRadius: 8, barPercentage: 0.6 },
+            { label: 'Facebook', data: placeholderData, backgroundColor: fbColor + '99', borderRadius: 8, barPercentage: 0.6 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } } },
+          scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } }
+        }
+      });
+
+      destroyChart('demographicsChart');
+      const ctx4 = document.getElementById('demographicsChart').getContext('2d');
+      charts['demographicsChart'] = new Chart(ctx4, {
+        type: 'doughnut',
+        data: {
+          labels: ['18-24', '25-34', '35-44', '45+'],
+          datasets: [{ data: [1, 1, 1, 1], backgroundColor: [pink, tiktokColor, fbColor, '#FF9100'], borderWidth: 0, spacing: 4 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '74%',
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 11 } } } }
+        }
+      });
+    }
+
+    if (tab === 'ads') {
+      destroyChart('adSpendChart');
+      const ctx5 = document.getElementById('adSpendChart').getContext('2d');
+      charts['adSpendChart'] = new Chart(ctx5, {
+        type: 'line',
+        data: {
+          labels: monthLabels,
+          datasets: [
+            { label: 'Meta', data: placeholderData, borderColor: fbColor, backgroundColor: fbColor + '15', fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 0 },
+            { label: 'Google', data: placeholderData, borderColor: googleColor, backgroundColor: googleColor + '15', fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 0 },
+            { label: 'TikTok', data: placeholderData, borderColor: tiktokColor, backgroundColor: tiktokColor + '15', fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 11 } } } },
+          scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } }
+        }
+      });
+
+      destroyChart('adSplitChart');
+      const ctx6 = document.getElementById('adSplitChart').getContext('2d');
+      charts['adSplitChart'] = new Chart(ctx6, {
+        type: 'doughnut',
+        data: {
+          labels: ['Meta Ads', 'Google Ads', 'TikTok Ads'],
+          datasets: [{ data: [1, 1, 1], backgroundColor: [fbColor, googleColor, tiktokColor], borderWidth: 0, spacing: 4 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '74%',
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 11 } } } }
+        }
+      });
+    }
+  }
+
+  // Init overview charts on load
+  initCharts('overview');
+</script>
+
+</body>
+</html>
