@@ -724,27 +724,27 @@
     <div class="metrics-row">
       <div class="metric-card">
         <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F441;</div>
-        <div class="metric-label">Total Impressions</div>
-        <div class="metric-value">&mdash;</div>
-        <div class="metric-change up">&uarr; &mdash;%</div>
+        <div class="metric-label">Total Views</div>
+        <div class="metric-value">148.2K</div>
+        <div class="metric-change up">14.9% from Ads</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon" style="background: var(--pink-dim); color: var(--pink);">&#x1F4F1;</div>
-        <div class="metric-label">Reach</div>
-        <div class="metric-value">21K</div>
-        <div class="metric-change up">INSTAGRAM</div>
+        <div class="metric-label">Accounts Reached</div>
+        <div class="metric-value">34.3K</div>
+        <div class="metric-change up">&uarr; 63.1%</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F4DD;</div>
         <div class="metric-label">Posts Published</div>
-        <div class="metric-value">18</div>
-        <div class="metric-change up">MARCH 2026</div>
+        <div class="metric-value">&mdash;</div>
+        <div class="metric-change up">APRIL 2026</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon" style="background: rgba(255,145,0,0.1); color: var(--orange);">&#x1F3AC;</div>
         <div class="metric-label">Top Format</div>
-        <div class="metric-value" style="font-size:22px;">Reels</div>
-        <div class="metric-change up">BEST PERFORMING</div>
+        <div class="metric-value" style="font-size:22px;">Stories</div>
+        <div class="metric-change up">61.2% OF VIEWS</div>
       </div>
     </div>
 
@@ -818,7 +818,8 @@
   <div class="section" id="tab-social">
 
     <div style="display:flex;gap:6px;margin-bottom:16px;">
-      <button class="nav-tab active" onclick="switchMonth('mar',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">MARCH</button>
+      <button class="nav-tab active" onclick="switchMonth('apr',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">APRIL</button>
+      <button class="nav-tab" onclick="switchMonth('mar',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">MARCH</button>
       <button class="nav-tab" onclick="switchMonth('feb',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">FEBRUARY</button>
       <button class="nav-tab" onclick="switchMonth('jan',this)" style="padding:7px 18px;font-size:10px;font-weight:600;border-radius:50px;cursor:pointer;letter-spacing:0.6px;">JANUARY</button>
     </div>
@@ -847,9 +848,9 @@
             <div class="platform-stat-change" id="ig-eng-change" style="color: var(--green);">&uarr; 0.48%</div>
           </div>
           <div>
-            <div class="platform-stat-label">Reach</div>
-            <div class="platform-stat-value">21K</div>
-            <div class="platform-stat-change" style="color: var(--green);">TOTAL</div>
+            <div class="platform-stat-label">Total Views</div>
+            <div class="platform-stat-value" id="ig-views">148.2K</div>
+            <div class="platform-stat-change" id="ig-views-sub" style="color: var(--green);">42.9% Followers</div>
           </div>
           <div>
             <div class="platform-stat-label">Posts Published</div>
@@ -925,6 +926,58 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="section-label">Views by Content Type</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-icon" style="background: var(--pink-dim); color: var(--pink);">&#x1F4F1;</div>
+        <div class="metric-label">Stories</div>
+        <div class="metric-value" id="ig-stories">61.2%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F4F8;</div>
+        <div class="metric-label">Posts</div>
+        <div class="metric-value" id="ig-posts-pct">22.0%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F3AC;</div>
+        <div class="metric-label">Reels</div>
+        <div class="metric-value" id="ig-reels">16.7%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(255,145,0,0.1); color: var(--orange);">&#x1F4F9;</div>
+        <div class="metric-label">Live Videos</div>
+        <div class="metric-value" id="ig-live">0.0%</div>
+      </div>
+    </div>
+
+    <div class="section-label">Profile Activity</div>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-icon" style="background: var(--pink-dim); color: var(--pink);">&#x1F4CA;</div>
+        <div class="metric-label">Total Activity</div>
+        <div class="metric-value" id="ig-activity">4,452</div>
+        <div class="metric-change up" id="ig-activity-change">&uarr; 42.9%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(68,138,255,0.1); color: var(--blue);">&#x1F464;</div>
+        <div class="metric-label">Profile Visits</div>
+        <div class="metric-value" id="ig-profile-visits">4,057</div>
+        <div class="metric-change up" id="ig-profile-visits-change">&uarr; 41.4%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(0,230,118,0.1); color: var(--green);">&#x1F517;</div>
+        <div class="metric-label">External Link Taps</div>
+        <div class="metric-value" id="ig-link-taps">395</div>
+        <div class="metric-change" id="ig-link-taps-change" style="color: var(--green);">&uarr; 60.6%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(255,145,0,0.1); color: var(--orange);">&#x1F441;</div>
+        <div class="metric-label">Accounts Reached</div>
+        <div class="metric-value" id="ig-reach">34,294</div>
+        <div class="metric-change up" id="ig-reach-change">&uarr; 63.1%</div>
+      </div>
     </div>
 
     <div class="section-label">Content Insights &mdash; March 2026</div>
@@ -1022,32 +1075,60 @@
             <div class="ad-platform-icon" style="background: rgba(24,119,242,0.15); color: var(--facebook);">M</div>
             <div class="ad-platform-name">Meta Ads</div>
           </div>
-          <div class="ad-status"><div class="ad-status-dot"></div> Active</div>
+          <div class="ad-status"><div class="ad-status-dot" style="background: var(--text-dim);"></div> Completed</div>
         </div>
         <div class="ad-metrics">
           <div class="ad-metric">
             <div class="ad-metric-label">Spend</div>
-            <div class="ad-metric-value">$&mdash;</div>
+            <div class="ad-metric-value">$149.53</div>
           </div>
           <div class="ad-metric">
-            <div class="ad-metric-label">ROAS</div>
-            <div class="ad-metric-value">&mdash;x</div>
+            <div class="ad-metric-label">Duration</div>
+            <div class="ad-metric-value">5 Days</div>
           </div>
           <div class="ad-metric">
-            <div class="ad-metric-label">Impressions</div>
-            <div class="ad-metric-value">&mdash;</div>
+            <div class="ad-metric-label">Views</div>
+            <div class="ad-metric-value">17,201</div>
           </div>
           <div class="ad-metric">
-            <div class="ad-metric-label">Clicks</div>
-            <div class="ad-metric-value">&mdash;</div>
+            <div class="ad-metric-label">Reach</div>
+            <div class="ad-metric-value">9,283</div>
           </div>
           <div class="ad-metric">
-            <div class="ad-metric-label">CTR</div>
-            <div class="ad-metric-value">&mdash;%</div>
+            <div class="ad-metric-label">Profile Visits</div>
+            <div class="ad-metric-value">520</div>
           </div>
           <div class="ad-metric">
-            <div class="ad-metric-label">Conversions</div>
-            <div class="ad-metric-value">&mdash;</div>
+            <div class="ad-metric-label">Cost / Visit</div>
+            <div class="ad-metric-value">$0.29</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--card-border);margin-top:12px;padding-top:12px;">
+          <div class="ad-metrics">
+            <div class="ad-metric">
+              <div class="ad-metric-label">New Follows</div>
+              <div class="ad-metric-value">100</div>
+            </div>
+            <div class="ad-metric">
+              <div class="ad-metric-label">Link Taps</div>
+              <div class="ad-metric-value">58</div>
+            </div>
+            <div class="ad-metric">
+              <div class="ad-metric-label">Likes</div>
+              <div class="ad-metric-value">61</div>
+            </div>
+            <div class="ad-metric">
+              <div class="ad-metric-label">Saves</div>
+              <div class="ad-metric-value">26</div>
+            </div>
+            <div class="ad-metric">
+              <div class="ad-metric-label">Shares</div>
+              <div class="ad-metric-value">25</div>
+            </div>
+            <div class="ad-metric">
+              <div class="ad-metric-label">Audience</div>
+              <div class="ad-metric-value" style="font-size:13px;">78.5% W</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1356,9 +1437,26 @@
 
   // === MONTHLY DATA ===
   const monthlyData = {
-    mar: { engagement: '8.02%', engChange: '↑ 0.48%', posts: '18', postsLabel: 'MAR 2026' },
-    feb: { engagement: '7.54%', engChange: '↑ 1.53%', posts: '18', postsLabel: 'FEB 2026' },
-    jan: { engagement: '6.01%', engChange: '—', posts: '15', postsLabel: 'JAN 2026' }
+    apr: { engagement: '—%', engChange: '—', posts: '—', postsLabel: 'APR 2026',
+           views: '148.2K', viewsSub: '42.9% Followers • 57.1% Non', reach: '34,294', reachChange: '↑ 63.1%',
+           stories: '61.2%', postsPct: '22.0%', reels: '16.7%', live: '0.0%',
+           activity: '4,452', activityChange: '↑ 42.9%', profileVisits: '4,057', profileVisitsChange: '↑ 41.4%',
+           linkTaps: '395', linkTapsChange: '↑ 60.6%', linkTapsColor: 'var(--green)' },
+    mar: { engagement: '8.02%', engChange: '↑ 0.48%', posts: '18', postsLabel: 'MAR 2026',
+           views: '142.4K', viewsSub: '52.1% Followers • 47.9% Non', reach: '21,029', reachChange: '↑ 44.4%',
+           stories: '50.7%', postsPct: '26.4%', reels: '22.9%', live: '0.0%',
+           activity: '3,115', activityChange: '↑ 7.1%', profileVisits: '2,869', profileVisitsChange: '↑ 9.6%',
+           linkTaps: '246', linkTapsChange: '↓ 15.5%', linkTapsColor: 'var(--red)' },
+    feb: { engagement: '7.54%', engChange: '↑ 1.53%', posts: '18', postsLabel: 'FEB 2026',
+           views: '—', viewsSub: '—', reach: '—', reachChange: '—',
+           stories: '—', postsPct: '—', reels: '—', live: '—',
+           activity: '—', activityChange: '—', profileVisits: '—', profileVisitsChange: '—',
+           linkTaps: '—', linkTapsChange: '—', linkTapsColor: 'var(--text-dim)' },
+    jan: { engagement: '6.01%', engChange: '—', posts: '15', postsLabel: 'JAN 2026',
+           views: '—', viewsSub: '—', reach: '—', reachChange: '—',
+           stories: '—', postsPct: '—', reels: '—', live: '—',
+           activity: '—', activityChange: '—', profileVisits: '—', profileVisitsChange: '—',
+           linkTaps: '—', linkTapsChange: '—', linkTapsColor: 'var(--text-dim)' }
   };
 
   function switchMonth(month, btn) {
@@ -1369,6 +1467,21 @@
     document.getElementById('ig-eng-change').textContent = d.engChange;
     document.getElementById('ig-posts').textContent = d.posts;
     document.getElementById('ig-posts-label').textContent = d.postsLabel;
+    document.getElementById('ig-views').textContent = d.views;
+    document.getElementById('ig-views-sub').textContent = d.viewsSub;
+    document.getElementById('ig-reach').textContent = d.reach;
+    document.getElementById('ig-reach-change').textContent = d.reachChange;
+    document.getElementById('ig-stories').textContent = d.stories;
+    document.getElementById('ig-posts-pct').textContent = d.postsPct;
+    document.getElementById('ig-reels').textContent = d.reels;
+    document.getElementById('ig-live').textContent = d.live;
+    document.getElementById('ig-activity').textContent = d.activity;
+    document.getElementById('ig-activity-change').textContent = d.activityChange;
+    document.getElementById('ig-profile-visits').textContent = d.profileVisits;
+    document.getElementById('ig-profile-visits-change').textContent = d.profileVisitsChange;
+    document.getElementById('ig-link-taps').textContent = d.linkTaps;
+    document.getElementById('ig-link-taps-change').textContent = d.linkTapsChange;
+    document.getElementById('ig-link-taps-change').style.color = d.linkTapsColor;
   }
 
   // === TAB SWITCHING ===
